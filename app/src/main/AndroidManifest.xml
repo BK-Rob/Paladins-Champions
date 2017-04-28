@@ -3,6 +3,8 @@
     package="com.stats.champions.paladins">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -31,9 +33,9 @@
         </activity>
 
         <meta-data android:name="Rush_db_version" android:value="2" />
-        <meta-data android:name="Rush_db_name" android:value="paladinsBuddy.db" />
+        <meta-data android:name="Rush_db_name" android:value="paladinsCompanion.db" />
         <meta-data android:name="Rush_debug" android:value="true" />
-        <meta-data android:name="Rush_log" android:value="true" />
+        <meta-data android:name="Rush_log" android:value="false" />
     </application>
 
 </manifest>

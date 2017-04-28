@@ -2,7 +2,8 @@ package com.stats.champions.paladins;
 
 import android.app.Application;
 
-import com.stats.champions.paladins.api.Champion;
+import com.stats.champions.paladins.model.Champion;
+import com.stats.champions.paladins.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class App extends Application {
 
         List<Class<? extends Rush>> classes = new ArrayList<>();
         classes.add(Champion.class);
+        classes.add(Item.class);
 
         AndroidInitializeConfig androidInitializeConfig = new AndroidInitializeConfig(getApplicationContext(), classes);
         RushAndroid.initialize(androidInitializeConfig);

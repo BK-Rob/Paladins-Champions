@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.api;
+package com.stats.champions.paladins.model;
 
 import com.google.gson.annotations.SerializedName;
 

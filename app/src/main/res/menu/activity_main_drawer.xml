@@ -3,13 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_champions"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/nav_champions" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_player"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="@string/nav_player" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
@@ -20,17 +20,15 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
+    <group android:id="@+id/group_2"
+        android:checkableBehavior="single">
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/nav_feedback" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_about"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
+                android:title="@string/nav_about" />
+    </group>
 </menu>

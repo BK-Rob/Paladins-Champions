@@ -2,7 +2,7 @@ package com.stats.champions.paladins;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,23 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.stats.champions.paladins.api.Champion;
-import com.stats.champions.paladins.api.RestClient;
-import com.stats.champions.paladins.api.RestClient.REQUEST_TYPE;
-import com.stats.champions.paladins.api.UserSession;
+import com.stats.champions.paladins.api.Endpoint;
+import com.stats.champions.paladins.api.ObservableApiCall;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
-import co.uk.rushorm.core.RushCallback;
-import co.uk.rushorm.core.RushCore;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Observer {
@@ -41,7 +29,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         initViews(toolbar);
     }
 
@@ -50,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RestClient(REQUEST_TYPE.CONNEXION, "createsession").addObserver(MainActivity.this);
+                new ObservableApiCall(MainActivity.this, Endpoint.CreateSession).addObserver(MainActivity.this);
             }
         });
 
@@ -96,16 +83,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-        } else if (id == R.id.nav_gallery) {
-            new RestClient(REQUEST_TYPE.TEST, "testsession").addObserver(MainActivity.this);
+        if (id == R.id.nav_champions) {
+        } else if (id == R.id.nav_player) {
+            new ObservableApiCall(this, Endpoint.TestSession).addObserver(MainActivity.this);
         } else if (id == R.id.nav_slideshow) {
-            new RestClient(REQUEST_TYPE.CHAMPIONS, "getchampions", "1").addObserver(MainActivity.this);
+            new ObservableApiCall(this, Endpoint.GetChampions, "1").addObserver(MainActivity.this);
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_feedback) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
 
         }
 
@@ -116,42 +103,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg.equals(REQUEST_TYPE.CONNEXION)) {
-            RestClient client = ((RestClient) o);
-            String res = client.getResult();
-            Log.d("myResult", res);
-            try {
-                JSONObject obj = new JSONObject(res);
-                if (obj.getString("ret_msg").equals("Approved"))
-                    UserSession.getInstance().setSession(obj.getString("session_id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (arg.equals(REQUEST_TYPE.TEST)) {
-            RestClient client = ((RestClient) o);
-            String res = client.getResult();
-            Log.d("myResult", res);
-        } else if (arg.equals(REQUEST_TYPE.PLAYER)) {
-            RestClient client = ((RestClient) o);
-            String res = client.getResult();
-            Log.d("myResult", res);
-        }
-        else {
-            RestClient client = ((RestClient) o);
-            String res = client.getResult();
-            Log.d("myResult", res);
-            try {
-                JSONObject obj = new JSONArray(res).getJSONObject(0);
-                if (obj.getString("Ability1").equals("null"))
-                    return;
 
-                ArrayList<Champion> champions = new Gson().fromJson(res, new TypeToken<ArrayList<Champion>>(){}.getType());
-                Champion t = champions.get(0);
-                RushCore.getInstance().deleteAll(Champion.class);
-                RushCore.getInstance().save(champions);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
