@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_above="@id/seperator">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -23,9 +25,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="@drawable/gradient_splash"
+            android:layout_below="@id/seperator"
             android:gravity="center">
 
             <com.github.ybq.android.spinkit.SpinKitView
@@ -37,11 +39,34 @@
                 android:layout_gravity="center"
                 app:SpinKit_Color="@color/colorPrimary" />
         </RelativeLayout>
-    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
         android:src="@drawable/paladins_logo" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="Paladins API : 0.1.2.5 [PATCH OB48]"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"/>
+    <TextView
+        android:id="@+id/patch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        tools:text="Paladins API : 0.1.2.5 [PATCH OB48]"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_above="@id/status"
+        android:layout_alignParentEnd="true"/>
+
 </RelativeLayout>

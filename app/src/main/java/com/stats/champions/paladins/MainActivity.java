@@ -1,6 +1,5 @@
 package com.stats.champions.paladins;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -14,15 +13,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.stats.champions.paladins.api.Constants;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.stats.champions.paladins.api.Champion;
 import com.stats.champions.paladins.api.RestClient;
 import com.stats.champions.paladins.api.RestClient.REQUEST_TYPE;
+import com.stats.champions.paladins.api.UserSession;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import co.uk.rushorm.core.RushCallback;
+import co.uk.rushorm.core.RushCore;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Observer {
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             new RestClient(REQUEST_TYPE.TEST, "testsession").addObserver(MainActivity.this);
         } else if (id == R.id.nav_slideshow) {
-            new RestClient(REQUEST_TYPE.TEST, "getplayer", "Nitratz").addObserver(MainActivity.this);
+            new RestClient(REQUEST_TYPE.CHAMPIONS, "getchampions", "1").addObserver(MainActivity.this);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -116,7 +123,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 JSONObject obj = new JSONObject(res);
                 if (obj.getString("ret_msg").equals("Approved"))
-                    Constants.mSession = obj.getString("session_id");
+                    UserSession.getInstance().setSession(obj.getString("session_id"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -128,6 +135,23 @@ public class MainActivity extends AppCompatActivity
             RestClient client = ((RestClient) o);
             String res = client.getResult();
             Log.d("myResult", res);
+        }
+        else {
+            RestClient client = ((RestClient) o);
+            String res = client.getResult();
+            Log.d("myResult", res);
+            try {
+                JSONObject obj = new JSONArray(res).getJSONObject(0);
+                if (obj.getString("Ability1").equals("null"))
+                    return;
+
+                ArrayList<Champion> champions = new Gson().fromJson(res, new TypeToken<ArrayList<Champion>>(){}.getType());
+                Champion t = champions.get(0);
+                RushCore.getInstance().deleteAll(Champion.class);
+                RushCore.getInstance().save(champions);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
