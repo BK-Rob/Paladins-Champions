@@ -14,12 +14,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Observable;
+import java.util.Observer;
 
-public class ObservableApiCall extends Observable {
+public class ObservableApiCall extends Observable implements Observer {
 
     private String BASE_URL = "http://api.paladins.com/paladinsapi.svc/";
-
     private String mResult;
+
+    private String mName;
+    private String[] mArgs;
 
     private Activity mContext;
     private RestClient mClient;
@@ -29,8 +32,14 @@ public class ObservableApiCall extends Observable {
         mContext = context;
         mSession = UserSession.getInstance();
         mClient = RestClient.getInstance();
+        mName = name;
+        mArgs = args;
 
-        callMethod(name, args);
+        if ((!Endpoint.CreateSession.equals(name) && !Endpoint.Ping.equals(name))
+                && mSession.getSession() == null)
+            new ObservableApiCall(mContext, Endpoint.CreateSession);
+        else
+            callMethod(name, args);
     }
 
     private void callMethod(String name, String... args) {
@@ -93,6 +102,7 @@ public class ObservableApiCall extends Observable {
     private String generateSignature(String methodName, String time, boolean isConnexion) {
 
         String s = mSession.DEV_ID + methodName + mSession.AUTH_KEY + time;
+        String session = mSession.getSession();
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(s.getBytes());
@@ -102,7 +112,7 @@ public class ObservableApiCall extends Observable {
             if (isConnexion)
                 return mSession.DEV_ID + "/" + hashtext + "/";
             else
-                return mSession.DEV_ID + "/" + hashtext + "/" + mSession.getSession() + "/";
+                return mSession.DEV_ID + "/" + hashtext + "/" + session + "/";
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -113,4 +123,15 @@ public class ObservableApiCall extends Observable {
         return mResult;
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        final ObservableApiCall client = (ObservableApiCall) o;
+        Log.d("myType", arg.toString());
+
+        switch ((String) arg) {
+            case Endpoint.CreateSession:
+                callMethod(mName, mArgs);
+                break;
+        }
+    }
 }
