@@ -6,6 +6,12 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import co.uk.rushorm.core.AnnotationCache;
+import co.uk.rushorm.core.Rush;
+import co.uk.rushorm.core.RushCore;
 import co.uk.rushorm.core.RushObject;
 import co.uk.rushorm.core.annotations.RushCustomTableName;
 
@@ -182,4 +188,21 @@ public class Item extends RushObject implements Parcelable {
         return 0;
     }
 
+    public static ArrayList<Item> loadDataById(String id) {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Item.class).getTableName();
+        return (ArrayList<Item>) RushCore.getInstance().load(Item.class, "SELECT * FROM " + table + " WHERE id = " + id + " ORDER BY name DESC");
+    }
+
+    public static ArrayList<Item> loadAllData() {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Item.class).getTableName();
+        return (ArrayList<Item>) RushCore.getInstance().load(Item.class, "SELECT * FROM " + table);
+    }
+
+    public static long countData() {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Item.class).getTableName();
+        return RushCore.getInstance().count("SELECT COUNT(*) FROM " + table);
+    }
 }

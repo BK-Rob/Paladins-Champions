@@ -3,10 +3,17 @@ package com.stats.champions.paladins.model;
 import com.google.gson.annotations.SerializedName;
 
 import android.os.Parcel;
+
+import co.uk.rushorm.core.AnnotationCache;
+import co.uk.rushorm.core.Rush;
+import co.uk.rushorm.core.RushCore;
 import co.uk.rushorm.core.annotations.RushCustomTableName;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 import co.uk.rushorm.core.RushObject;
 
@@ -507,4 +514,21 @@ public class Champion extends RushObject implements Parcelable {
         return 0;
     }
 
+    public static ArrayList<Champion> loadDataById(String id) {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Champion.class).getTableName();
+        return (ArrayList<Champion>) RushCore.getInstance().load(Champion.class, "SELECT * FROM " + table + " WHERE id = " + id + " ORDER BY name DESC");
+    }
+
+    public static ArrayList<Champion> loadAllData() {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Champion.class).getTableName();
+        return (ArrayList<Champion>) RushCore.getInstance().load(Champion.class, "SELECT * FROM " + table);
+    }
+
+    public static long countData() {
+        Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
+        String table = annotationCache.get(Champion.class).getTableName();
+        return RushCore.getInstance().count("SELECT COUNT(*) FROM " + table);
+    }
 }

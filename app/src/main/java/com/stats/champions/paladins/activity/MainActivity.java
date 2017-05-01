@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -87,10 +88,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_champions) {
+            new ObservableApiCall(this, Endpoint.GetMatchHistory, "Nitratz").addObserver(MainActivity.this);
         } else if (id == R.id.nav_player) {
             new ObservableApiCall(this, Endpoint.TestSession).addObserver(MainActivity.this);
         } else if (id == R.id.nav_slideshow) {
-            new ObservableApiCall(this, Endpoint.GetChampions, "1").addObserver(MainActivity.this);
+
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_feedback) {
@@ -104,6 +106,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void update(Observable o, Object arg) {
-
+        Log.d("myResult", ((ObservableApiCall) o).getResult());
     }
 }

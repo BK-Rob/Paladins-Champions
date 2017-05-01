@@ -76,14 +76,14 @@ public class ObservableApiCall extends Observable implements Observer {
             @Override
             public void onFailure(Request request, IOException e) {
                 mResult = "{\"ret_msg\":\"FAILURE\",\"message\":\"Something went wrong.\"}";
-                Log.d("ObservableApiCall", "onFailure");
+                Log.d("myObservableApiCall", "onFailure");
                 notifyObserver(type);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 mResult = response.body().string();
-                Log.d("ObservableApiCall", "onResponse: " + mResult);
+                Log.d("myObservableApiCall", "onResponse: " + mResult);
                 notifyObserver(type);
             }
         };

@@ -5,6 +5,7 @@ import android.app.Application;
 import com.google.firebase.FirebaseApp;
 import com.stats.champions.paladins.model.Champion;
 import com.stats.champions.paladins.model.Item;
+import com.stats.champions.paladins.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class App extends Application {
         List<Class<? extends Rush>> classes = new ArrayList<>();
         classes.add(Champion.class);
         classes.add(Item.class);
+        classes.add(Player.class);
 
         AndroidInitializeConfig androidInitializeConfig = new AndroidInitializeConfig(getApplicationContext(), classes);
         RushAndroid.initialize(androidInitializeConfig);
