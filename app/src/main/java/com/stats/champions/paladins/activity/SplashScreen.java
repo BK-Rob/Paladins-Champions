@@ -112,6 +112,12 @@ public class SplashScreen extends Activity implements Observer, ApiParser.OnData
             } else {
                 mStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
                 mStatus.setText(getString(R.string.api_status_off));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new ObservableApiCall(SplashScreen.this, Endpoint.CreateSession).addObserver(SplashScreen.this);
+                    }
+                }, 500);
             }
         } else {
             storeSession(false, res, time);
