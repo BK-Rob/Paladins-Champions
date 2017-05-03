@@ -7,10 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.stats.champions.paladins.R;
-import com.stats.champions.paladins.fragment.FragmentPlayerStats;
+import com.stats.champions.paladins.fragment.FragmentPlayerContainer;
 import com.stats.champions.paladins.model.Player;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ public class HistoryPlayerAdapter extends RecyclerView.Adapter<HistoryPlayerAdap
         implements View.OnClickListener {
 
     private Context mContext;
+    private OnPlayerClickHappened mListener;
 
     private ArrayList<Player> mList;
 
-    public HistoryPlayerAdapter(Context context, ArrayList<Player> list) {
+    public HistoryPlayerAdapter(OnPlayerClickHappened listener, Context context, ArrayList<Player> list) {
         mContext = context;
+        mListener = listener;
         mList = list;
     }
 
@@ -68,13 +71,12 @@ public class HistoryPlayerAdapter extends RecyclerView.Adapter<HistoryPlayerAdap
     public void onClick(View v) {
         int pos = (Integer) v.getTag();
         Player player = mList.get(pos);
-        String id = String.valueOf(player.getmId());
+        String name = String.valueOf(player.getName());
 
-        FragmentTransaction ft = ((AppCompatActivity) mContext).getSupportFragmentManager()
-                .beginTransaction();
-        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-        ft.replace(R.id.container, FragmentPlayerStats.newInstance(id));
-        ft.addToBackStack("HistoryPlayer");
-        ft.commit();
+        mListener.onPlayerClicked(name);
+    }
+
+    public interface OnPlayerClickHappened {
+        void onPlayerClicked(String name);
     }
 }

@@ -90,6 +90,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void expandAppBar() {
+        mAppBarLayout.setExpanded(true);
+    }
+
     @Override
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {

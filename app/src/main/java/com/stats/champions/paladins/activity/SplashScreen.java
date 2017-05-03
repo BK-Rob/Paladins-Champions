@@ -16,7 +16,7 @@ import com.stats.champions.paladins.R;
 import com.stats.champions.paladins.api.ApiParser;
 import com.stats.champions.paladins.api.Endpoint;
 import com.stats.champions.paladins.api.ObservableApiCall;
-import com.stats.champions.paladins.api.UserSession;
+import com.stats.champions.paladins.api.PaladinSession;
 import com.stats.champions.paladins.firebase.FirebaseAnalyticsEvents;
 import com.stats.champions.paladins.model.Champion;
 import com.stats.champions.paladins.model.Item;
@@ -96,7 +96,7 @@ public class SplashScreen extends Activity implements Observer, ApiParser.OnData
             edit.putLong("session_expired", time + 900000);
             edit.apply();
         }
-        UserSession.getInstance().setSession(session, time + 900000);
+        PaladinSession.getInstance().setSession(session, time + 900000);
     }
 
     private void getSession(boolean isRequest, String res, long time) {

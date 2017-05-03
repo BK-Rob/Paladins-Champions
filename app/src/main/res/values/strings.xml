@@ -14,6 +14,9 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search a player...</string>
 
+    <string name="pager_summary">Summary</string>
+    <string name="pager_ranks">Ranks</string>
+    <string name="pager_history">History</string>
     <string name="history_players">History of player searched</string>
     <string name="no_player_found">No players found</string>
     <string name="summary">Summary</string>

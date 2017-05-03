@@ -1,7 +1,6 @@
 package com.stats.champions.paladins.api;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import com.squareup.okhttp.Callback;
@@ -26,11 +25,11 @@ public class ObservableApiCall extends Observable implements Observer {
 
     private Activity mContext;
     private RestClient mClient;
-    private UserSession mSession;
+    private PaladinSession mSession;
 
     public ObservableApiCall(Activity context, String name, String... args) {
         mContext = context;
-        mSession = UserSession.getInstance();
+        mSession = PaladinSession.getInstance();
         mClient = RestClient.getInstance();
         mName = name;
         mArgs = args;

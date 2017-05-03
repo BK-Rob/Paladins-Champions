@@ -300,13 +300,13 @@ public class Player extends RushObject implements Parcelable
     public static ArrayList<Player> loadDataById(String id) {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
-        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE id = " + id + " ORDER BY name DESC");
+        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE id = " + id + " ORDER BY name ASC");
     }
 
     public static ArrayList<Player> loadDataByName(String name) {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
-        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE name = " + name + " ORDER BY name DESC");
+        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE name = \"" + name + "\" ORDER BY name ASC");
     }
 
     public static ArrayList<Player> loadAllData() {

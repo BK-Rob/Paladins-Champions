@@ -3,9 +3,12 @@ package com.stats.champions.paladins.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.stats.champions.paladins.R;
@@ -35,7 +39,8 @@ import butterknife.ButterKnife;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
-public class FragmentSearchPlayer extends Fragment implements View.OnClickListener, Observer, ApiParser.OnDataStored {
+public class FragmentSearchPlayer extends Fragment implements View.OnClickListener,
+        Observer, ApiParser.OnDataStored, HistoryPlayerAdapter.OnPlayerClickHappened {
 
     @BindView(R.id.layout_no_found)
     View mNoFound;
@@ -48,6 +53,9 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
 
     @BindView(R.id.done_search)
     ImageView mSearchDone;
+
+    @BindView(R.id.radio_group)
+    RadioGroup mRadioGroup;
 
     private MainActivity mContext;
     private LinearLayoutManager mLayoutManager;
@@ -73,7 +81,7 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
         mContext.displayArrowOrDrawer(false);
 
         mLayoutManager = new LinearLayoutManager(mContext);
-        mAdapter = new HistoryPlayerAdapter(mContext, mPlayerList);
+        mAdapter = new HistoryPlayerAdapter(this, mContext, mPlayerList);
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mAdapter);
 
@@ -157,5 +165,18 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
         } else {
             ((MainActivity) getActivity()).turnOnToolbarScrolling();
         }
+    }
+
+    @Override
+    public void onPlayerClicked(String name) {
+        mContext.expandAppBar();
+        FragmentTransaction ft = mContext.getSupportFragmentManager().beginTransaction();
+
+        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.replace(R.id.container, FragmentPlayerContainer.newInstance(name,
+                mRadioGroup.getCheckedRadioButtonId() == R.id.summary_radio));
+        ft.addToBackStack("HistoryPlayer");
+
+        ft.commit();
     }
 }

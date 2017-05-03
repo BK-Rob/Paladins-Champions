@@ -78,12 +78,12 @@ public class ApiParser {
         JsonObject obj = (JsonObject) array.get(0);
 
         final Player player = new Gson().fromJson(obj, Player.class);
-        if (player.getName().equals("null"))
+        if (player.getName() == null || player.getName().equals("null"))
             return false;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Player> playerList = Player.loadDataByName("\"" + player.getName() + "\"");
+                    ArrayList<Player> playerList = Player.loadDataByName(player.getName());
                     if (playerList.size() != 0)
                         Player.delete(playerList.get(0));
                     RushCore.getInstance().save(player, new RushCallback() {

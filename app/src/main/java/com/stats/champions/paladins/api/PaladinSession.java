@@ -1,21 +1,21 @@
 package com.stats.champions.paladins.api;
 
-public class UserSession {
+public class PaladinSession {
 
     final String DEV_ID = "2008";
     final String AUTH_KEY = "AE978BA9199F41D1A6525FFD8831821A";
     private String mSession = null;
     private long mSessionExpired;
 
-    private static UserSession INSTANCE;
+    private static PaladinSession INSTANCE;
 
-    public static UserSession getInstance() {
+    public static PaladinSession getInstance() {
         if (INSTANCE == null)
-            INSTANCE = new UserSession();
+            INSTANCE = new PaladinSession();
         return INSTANCE;
     }
 
-    private UserSession() {
+    private PaladinSession() {
     }
 
     public String getSession() {
