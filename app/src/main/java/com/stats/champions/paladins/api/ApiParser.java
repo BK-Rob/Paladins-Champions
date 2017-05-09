@@ -72,14 +72,18 @@ public class ApiParser {
 
     public static boolean storePlayer(String res, final OnDataStored listener) {
         Log.d("myParser", "Parsing player...");
-        if (res.equals("[]"))
+        if (res.equals("[]")) {
+            listener.onStored(Endpoint.GetPlayer);
             return false;
+        }
         JsonArray array = new JsonParser().parse(res).getAsJsonArray();
         JsonObject obj = (JsonObject) array.get(0);
 
         final Player player = new Gson().fromJson(obj, Player.class);
-        if (player.getName() == null || player.getName().equals("null"))
+        if (player.getName() == null || player.getName().equals("null")) {
+            listener.onStored(Endpoint.GetPlayer);
             return false;
+        }
             new Thread(new Runnable() {
                 @Override
                 public void run() {

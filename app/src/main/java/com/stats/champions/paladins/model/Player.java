@@ -300,19 +300,19 @@ public class Player extends RushObject implements Parcelable
     public static ArrayList<Player> loadDataById(String id) {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
-        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE id = " + id + " ORDER BY name ASC");
+        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE id = " + id);
     }
 
     public static ArrayList<Player> loadDataByName(String name) {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
-        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE name = \"" + name + "\" ORDER BY name ASC");
+        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE name = \"" + name + "\"");
     }
 
     public static ArrayList<Player> loadAllData() {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
-        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table);
+        return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " ORDER BY name ASC");
     }
 
     public static void delete(Player player) {

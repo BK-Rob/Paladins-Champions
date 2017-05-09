@@ -1,14 +1,16 @@
 package com.stats.champions.paladins.fragment.pager;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.stats.champions.paladins.R;
@@ -20,10 +22,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class FragmentPlayerSummary extends Fragment implements Observer {
+
+    @BindView(R.id.player_name)
+    TextView mPlayerName;
+    @BindView(R.id.level_server)
+    TextView mLevelServer;
+    @BindView(R.id.nb_leaves)
+    TextView mLeaves;
+
+    @BindView(R.id.status_color)
+    ImageView mStatusColor;
+    @BindView(R.id.status_text)
+    TextView mStatusText;
+
+    @BindView(R.id.nb_wins)
+    TextView mNbWins;
+    @BindView(R.id.nb_looses)
+    TextView mNbLosses;
+    @BindView(R.id.winrate)
+    TextView mWinrate;
+    @BindView(R.id.nb_achievements)
+    TextView mNbAchievements;
 
     private Activity mContext;
     private Player mPlayer;
@@ -36,16 +63,29 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
         fragment.setArguments(args);
         return fragment;
     }
-    
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_player_summary, container, false);
         mContext = getActivity();
+        ButterKnife.bind(this, v);
         String name = getArguments().getString("player_name");
         mPlayer = Player.loadDataByName(name).get(0);
 
+        mPlayerName.setText(mPlayer.getName());
+        mLevelServer.setText("Level " + mPlayer.getLevel() + " - " + mPlayer.getRegion());
+        mLeaves.setText("Leaves : " + mPlayer.getLeaves());
+        mNbWins.setText(String.valueOf(mPlayer.getWins()));
+        mNbLosses.setText(String.valueOf(mPlayer.getLosses()));
+        int total = mPlayer.getWins() + mPlayer.getLosses();
+        float winrate = (float) (mPlayer.getWins() * 100) / total;
+        DecimalFormat nFormat = new DecimalFormat("##.00");
+        mWinrate.setText(nFormat.format(winrate) + "%");
+        mNbAchievements.setText(mPlayer.getTotalAchievements() + " / 43");
+
         new ObservableApiCall(mContext, Endpoint.GetPlayerStatus, name).addObserver(this);
+        new ObservableApiCall(mContext, Endpoint.GetFriends, name).addObserver(this);
         return v;
     }
 
@@ -53,7 +93,17 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
         try {
             JSONArray array = new JSONArray(res);
             JSONObject obj = array.getJSONObject(0);
-            String status = obj.getString("status_string");
+            if (obj.getString("ret_msg").equals("null")) {
+                String status = obj.getString("status_string");
+                mStatusText.setText(status);
+                if (status.equals("Offline"))
+                    mStatusColor.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_circle_red));
+                else if (status.equals("In Game"))
+                    mStatusColor.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_circle_orange));
+                else
+                    mStatusColor.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_circle_green));
+
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
@@ -68,6 +118,8 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
         switch ((String) arg) {
             case Endpoint.GetPlayerStatus:
                 parseStatus(client.getResult());
+                break;
+            case Endpoint.GetFriends:
                 break;
         }
     }
