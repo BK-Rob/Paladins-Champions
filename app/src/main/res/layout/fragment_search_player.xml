@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:weightSum="10">
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:background="@null"
+                android:hint="@string/search_player"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:paddingBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:textCursorDrawable="@drawable/cursor_color" />
+
+            <ImageView
+                android:id="@+id/done_search"
+                style="@style/SelectableItemBackgroundBorderless"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:contentDescription="@string/search_player"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_arrow_right" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_search"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/match_history_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:text="@string/match_history"
+            android:textColor="@color/white"
+            android:theme="@style/RadioButtonColors" />
+
+        <RadioButton
+            android:id="@+id/summary_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:buttonTint="@color/colorPrimary"
+            android:checked="true"
+            android:text="@string/summary"
+            android:textColor="@color/white"
+            android:theme="@style/RadioButtonColors" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/radio_group"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/light_grey" />
+
+    <TextView
+        android:id="@+id/history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="serif"
+        android:text="@string/history_players"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_below="@id/history">
+
+        <RelativeLayout
+            android:id="@+id/layout_no_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/no_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white_fade"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/no_player_found"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/no_found"
+                app:srcCompat="@drawable/ic_person"/>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_players"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</RelativeLayout>
