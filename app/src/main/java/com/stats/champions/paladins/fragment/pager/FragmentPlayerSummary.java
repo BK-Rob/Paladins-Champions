@@ -55,10 +55,10 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
     private Activity mContext;
     private Player mPlayer;
 
-    public static FragmentPlayerSummary newInstance(String name) {
+    public static FragmentPlayerSummary newInstance(int id) {
         Bundle args = new Bundle();
 
-        args.putString("player_name", name);
+        args.putInt("player_id", id);
         FragmentPlayerSummary fragment = new FragmentPlayerSummary();
         fragment.setArguments(args);
         return fragment;
@@ -70,8 +70,8 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
         View v = inflater.inflate(R.layout.fragment_player_summary, container, false);
         mContext = getActivity();
         ButterKnife.bind(this, v);
-        String name = getArguments().getString("player_name");
-        mPlayer = Player.loadDataByName(name).get(0);
+        int id = getArguments().getInt("player_id");
+        mPlayer = Player.loadDataById(id).get(0);
 
         mPlayerName.setText(mPlayer.getName());
         mLevelServer.setText("Level " + mPlayer.getLevel() + " - " + mPlayer.getRegion());
@@ -80,12 +80,11 @@ public class FragmentPlayerSummary extends Fragment implements Observer {
         mNbLosses.setText(String.valueOf(mPlayer.getLosses()));
         int total = mPlayer.getWins() + mPlayer.getLosses();
         float winrate = (float) (mPlayer.getWins() * 100) / total;
-        DecimalFormat nFormat = new DecimalFormat("##.00");
-        mWinrate.setText(nFormat.format(winrate) + "%");
+        DecimalFormat mFormat = new DecimalFormat("##.00");
+        mWinrate.setText(mFormat.format(winrate) + "%");
         mNbAchievements.setText(mPlayer.getTotalAchievements() + " / 43");
 
-        new ObservableApiCall(mContext, Endpoint.GetPlayerStatus, name).addObserver(this);
-        new ObservableApiCall(mContext, Endpoint.GetFriends, name).addObserver(this);
+        new ObservableApiCall(mContext, Endpoint.GetPlayerStatus, mPlayer.getName()).addObserver(this);
         return v;
     }
 

@@ -16,6 +16,9 @@ import com.stats.champions.paladins.model.Player;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HistoryPlayerAdapter extends RecyclerView.Adapter<HistoryPlayerAdapter.ViewHolder>
         implements View.OnClickListener {
 
@@ -55,15 +58,13 @@ public class HistoryPlayerAdapter extends RecyclerView.Adapter<HistoryPlayerAdap
      * VIEWHOLDER
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mText;
+        @BindView(R.id.text) TextView mText;
         View mClicker;
-
 
         ViewHolder(View itemView) {
             super(itemView);
-
-            mClicker = itemView.findViewById(R.id.player);
-            mText = (TextView) itemView.findViewById(R.id.text);
+            mClicker = itemView;
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -71,9 +72,8 @@ public class HistoryPlayerAdapter extends RecyclerView.Adapter<HistoryPlayerAdap
     public void onClick(View v) {
         int pos = (Integer) v.getTag();
         Player player = mList.get(pos);
-        String name = String.valueOf(player.getName());
 
-        mListener.onPlayerClicked(name);
+        mListener.onPlayerClicked(player.getName());
     }
 
     public interface OnPlayerClickHappened {

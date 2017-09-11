@@ -62,8 +62,7 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
     private HistoryPlayerAdapter mAdapter;
     private ArrayList<Player> mPlayerList;
     private boolean isFirstLaunch;
-    private String mPlayerName;
-    private boolean isStored;
+    private int mPlayerId;
 
     public static FragmentSearchPlayer newInstance() {
         Bundle args = new Bundle();
@@ -131,7 +130,6 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
         if (!player.equals("")) {
             mProgress.show();
             new ObservableApiCall(getActivity(), Endpoint.GetPlayer, player).addObserver(this);
-            mPlayerName = player;
             mSearch.setText("");
             mSearch.clearFocus();
             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -154,7 +152,7 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
 
         switch ((String) arg) {
             case Endpoint.GetPlayer:
-                isStored = ApiParser.storePlayer(client.getResult(), this);
+                mPlayerId = ApiParser.storePlayer(client.getResult(), this);
                 break;
         }
     }
@@ -167,8 +165,8 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
                 switch (type) {
                     case Endpoint.GetPlayer:
                         mProgress.cancel();
-                        if (isStored)
-                            onPlayerClicked(mPlayerName);
+                        if (mPlayerId != -1)
+                            onPlayerClicked(null);
                         break;
                 }
             }
@@ -187,11 +185,16 @@ public class FragmentSearchPlayer extends Fragment implements View.OnClickListen
 
     @Override
     public void onPlayerClicked(String name) {
+        if (name != null) {
+            mProgress.show();
+            new ObservableApiCall(getActivity(), Endpoint.GetPlayer, name).addObserver(this);
+            return;
+        }
         mContext.expandAppBar();
         FragmentTransaction ft = mContext.getSupportFragmentManager().beginTransaction();
 
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-        ft.replace(R.id.container, FragmentPlayerContainer.newInstance(name,
+        ft.replace(R.id.container, FragmentPlayerContainer.newInstance(mPlayerId,
                 mRadioGroup.getCheckedRadioButtonId() == R.id.summary_radio));
         ft.addToBackStack("HistoryPlayer");
 

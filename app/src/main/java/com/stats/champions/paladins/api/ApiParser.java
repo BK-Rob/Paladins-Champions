@@ -70,11 +70,11 @@ public class ApiParser {
         return false;
     }
 
-    public static boolean storePlayer(String res, final OnDataStored listener) {
+    public static int storePlayer(String res, final OnDataStored listener) {
         Log.d("myParser", "Parsing player...");
         if (res.equals("[]")) {
             listener.onStored(Endpoint.GetPlayer);
-            return false;
+            return -1;
         }
         JsonArray array = new JsonParser().parse(res).getAsJsonArray();
         JsonObject obj = (JsonObject) array.get(0);
@@ -82,12 +82,12 @@ public class ApiParser {
         final Player player = new Gson().fromJson(obj, Player.class);
         if (player.getName() == null || player.getName().equals("null")) {
             listener.onStored(Endpoint.GetPlayer);
-            return false;
+            return -1;
         }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<Player> playerList = Player.loadDataByName(player.getName());
+                    ArrayList<Player> playerList = Player.loadDataById(player.getmId());
                     if (playerList.size() != 0)
                         Player.delete(playerList.get(0));
                     RushCore.getInstance().save(player, new RushCallback() {
@@ -98,7 +98,7 @@ public class ApiParser {
                     });
                 }
             }).start();
-        return true;
+        return player.getmId();
     }
 
     public static boolean storeItems(String res, final OnDataStored listener) {

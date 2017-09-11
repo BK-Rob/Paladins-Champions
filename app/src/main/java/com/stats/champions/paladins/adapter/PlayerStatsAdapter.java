@@ -18,13 +18,13 @@ public class PlayerStatsAdapter extends FragmentPagerAdapter {
     private FragmentPlayerHistory mHistory;
     private FragmentPlayerRanks mRanks;
 
-    public PlayerStatsAdapter(Context context, FragmentManager fm, String playerName) {
+    public PlayerStatsAdapter(Context context, FragmentManager fm, int playerId) {
         super(fm);
         mContext = context;
 
-        mSummary = FragmentPlayerSummary.newInstance(playerName);
-        mHistory = FragmentPlayerHistory.newInstance(playerName);
-        mRanks = FragmentPlayerRanks.newInstance(playerName);
+        mSummary = FragmentPlayerSummary.newInstance(playerId);
+        mHistory = FragmentPlayerHistory.newInstance(playerId);
+        mRanks = FragmentPlayerRanks.newInstance(playerId);
     }
 
     @Override

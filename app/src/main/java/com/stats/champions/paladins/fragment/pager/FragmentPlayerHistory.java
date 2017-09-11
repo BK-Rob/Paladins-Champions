@@ -12,10 +12,10 @@ import com.stats.champions.paladins.R;
 
 public class FragmentPlayerHistory extends Fragment {
 
-    public static FragmentPlayerHistory newInstance(String name) {
+    public static FragmentPlayerHistory newInstance(int id) {
         Bundle args = new Bundle();
 
-        args.putString("player_name", name);
+        args.putInt("player_id", id);
         FragmentPlayerHistory fragment = new FragmentPlayerHistory();
         fragment.setArguments(args);
         return fragment;

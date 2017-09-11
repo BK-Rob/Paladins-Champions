@@ -36,7 +36,7 @@ public class ObservableApiCall extends Observable implements Observer {
 
         if ((!Endpoint.CreateSession.equals(name) && !Endpoint.Ping.equals(name))
                 && mSession.getSession() == null)
-            new ObservableApiCall(mContext, Endpoint.CreateSession);
+            return;
         else
             callMethod(name, args);
     }

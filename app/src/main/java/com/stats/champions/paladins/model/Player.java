@@ -297,7 +297,7 @@ public class Player extends RushObject implements Parcelable
         return 0;
     }
 
-    public static ArrayList<Player> loadDataById(String id) {
+    public static ArrayList<Player> loadDataById(int id) {
         Map<Class<? extends Rush>, AnnotationCache> annotationCache = RushCore.getInstance().getAnnotationCache();
         String table = annotationCache.get(Player.class).getTableName();
         return (ArrayList<Player>) RushCore.getInstance().load(Player.class, "SELECT * FROM " + table + " WHERE id = " + id);

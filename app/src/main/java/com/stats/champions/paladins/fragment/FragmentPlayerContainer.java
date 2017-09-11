@@ -25,7 +25,7 @@ import java.util.Observer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentPlayerContainer extends Fragment implements Observer, ApiParser.OnDataStored {
+public class FragmentPlayerContainer extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -35,13 +35,12 @@ public class FragmentPlayerContainer extends Fragment implements Observer, ApiPa
 
     private PlayerStatsAdapter mAdapter;
     private MainActivity mActivity;
-    private Player mPlayer;
 
-    public static FragmentPlayerContainer newInstance(String name, boolean isSummary) {
+    public static FragmentPlayerContainer newInstance(int id, boolean isSummary) {
         Bundle args = new Bundle();
 
         args.putBoolean("type_checked", isSummary);
-        args.putString("player_name", name);
+        args.putInt("player_id", id);
         FragmentPlayerContainer fragment = new FragmentPlayerContainer();
         fragment.setArguments(args);
         return fragment;
@@ -55,13 +54,13 @@ public class FragmentPlayerContainer extends Fragment implements Observer, ApiPa
         ButterKnife.bind(this, v);
 
         Bundle b = getArguments();
-        String name = b.getString("player_name");
+        int id = b.getInt("player_id");
         boolean isSummary = b.getBoolean("type_checked");
-        new ObservableApiCall(mActivity, Endpoint.GetPlayer, name).addObserver(this);
+        Player p = Player.loadDataById(id).get(0);
 
         mActivity.displayArrowOrDrawer(true);
-        mActivity.getSupportActionBar().setTitle(name);
-        mAdapter = new PlayerStatsAdapter(mActivity, getChildFragmentManager(), name);
+        mActivity.getSupportActionBar().setTitle(p.getName());
+        mAdapter = new PlayerStatsAdapter(mActivity, getChildFragmentManager(), id);
 
         mViewPager.setOffscreenPageLimit(1);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -73,23 +72,5 @@ public class FragmentPlayerContainer extends Fragment implements Observer, ApiPa
             mViewPager.setCurrentItem(2);
 
         return v;
-    }
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-        final ObservableApiCall client = (ObservableApiCall) o;
-        Log.d("myType", arg.toString());
-
-        switch ((String) arg) {
-            case Endpoint.GetPlayer:
-                ApiParser.storePlayer(client.getResult(), this);
-                break;
-        }
-    }
-
-    @Override
-    public void onStored(String type) {
-
     }
 }
