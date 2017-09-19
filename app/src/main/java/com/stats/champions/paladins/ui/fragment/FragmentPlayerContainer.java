@@ -1,26 +1,18 @@
-package com.stats.champions.paladins.fragment;
+package com.stats.champions.paladins.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.stats.champions.paladins.R;
-import com.stats.champions.paladins.activity.MainActivity;
-import com.stats.champions.paladins.adapter.PlayerStatsAdapter;
-import com.stats.champions.paladins.api.ApiParser;
-import com.stats.champions.paladins.api.Endpoint;
-import com.stats.champions.paladins.api.ObservableApiCall;
+import com.stats.champions.paladins.ui.activity.MainActivity;
+import com.stats.champions.paladins.ui.adapter.PlayerStatsAdapter;
 import com.stats.champions.paladins.model.Player;
-
-import java.util.Observable;
-import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.adapter;
+package com.stats.champions.paladins.ui.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.stats.champions.paladins.R;
-import com.stats.champions.paladins.fragment.pager.FragmentPlayerHistory;
-import com.stats.champions.paladins.fragment.pager.FragmentPlayerRanks;
-import com.stats.champions.paladins.fragment.pager.FragmentPlayerSummary;
+import com.stats.champions.paladins.ui.fragment.pager.FragmentPlayerHistory;
+import com.stats.champions.paladins.ui.fragment.pager.FragmentPlayerRanks;
+import com.stats.champions.paladins.ui.fragment.pager.FragmentPlayerSummary;
 
 public class PlayerStatsAdapter extends FragmentPagerAdapter {
 

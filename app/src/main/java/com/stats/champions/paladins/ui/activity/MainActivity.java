@@ -1,10 +1,9 @@
-package com.stats.champions.paladins.activity;
+package com.stats.champions.paladins.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +19,7 @@ import com.stats.champions.paladins.R;
 import com.stats.champions.paladins.api.Endpoint;
 import com.stats.champions.paladins.api.ObservableApiCall;
 import com.stats.champions.paladins.firebase.FirebaseAnalyticsEvents;
-import com.stats.champions.paladins.fragment.FragmentSearchPlayer;
+import com.stats.champions.paladins.ui.fragment.FragmentSearchPlayer;
 import com.webianks.easy_feedback.EasyFeedback;
 
 import java.util.Observable;

@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.activity;
+package com.stats.champions.paladins.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;

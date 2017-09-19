@@ -1,6 +1,6 @@
 package com.stats.champions.paladins.api;
 
-public class Queue {
+public class QueueType {
 
     public static int CONQUEST_5V5 = 423;
     public static int NOVICE_QUEUE = 424;

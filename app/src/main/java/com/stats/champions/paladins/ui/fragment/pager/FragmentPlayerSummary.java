@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.fragment.pager;
+package com.stats.champions.paladins.ui.fragment.pager;
 
 import android.app.Activity;
 import android.os.Bundle;

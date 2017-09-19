@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.fragment;
+package com.stats.champions.paladins.ui.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,8 +21,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.stats.champions.paladins.R;
-import com.stats.champions.paladins.activity.MainActivity;
-import com.stats.champions.paladins.adapter.HistoryPlayerAdapter;
+import com.stats.champions.paladins.ui.activity.MainActivity;
+import com.stats.champions.paladins.ui.adapter.HistoryPlayerAdapter;
 import com.stats.champions.paladins.api.ApiParser;
 import com.stats.champions.paladins.api.Endpoint;
 import com.stats.champions.paladins.api.ObservableApiCall;

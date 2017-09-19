@@ -1,7 +1,6 @@
-package com.stats.champions.paladins.fragment.pager;
+package com.stats.champions.paladins.ui.fragment.pager;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +15,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stats.champions.paladins.R;
-import com.stats.champions.paladins.adapter.PlayerRanksAdapter;
+import com.stats.champions.paladins.ui.adapter.PlayerRanksAdapter;
 import com.stats.champions.paladins.api.Endpoint;
 import com.stats.champions.paladins.api.ObservableApiCall;
 import com.stats.champions.paladins.model.Champion;
 import com.stats.champions.paladins.model.ChampionRank;
-import com.stats.champions.paladins.model.Item;
 import com.stats.champions.paladins.model.Player;
 
 import java.util.ArrayList;

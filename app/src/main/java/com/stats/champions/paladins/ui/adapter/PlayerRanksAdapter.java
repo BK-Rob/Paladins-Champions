@@ -1,4 +1,4 @@
-package com.stats.champions.paladins.adapter;
+package com.stats.champions.paladins.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
